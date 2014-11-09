@@ -1,16 +1,14 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
+#define UART_BAUD_RATE  250000
+#define CHANNELS_COUNT 16
+#define DMX_ADDRESS 13
 
-//размер буфера
-#define SIZE_BUF 22
-#define UART_BAUD_RATE  57600
+typedef struct {
+	unsigned char Channels[CHANNELS_COUNT];
+} buffer;
 
 void USART_Init(void); //инициализация usart`a
-unsigned char USART_GetTxCount(void); //взять число символов передающего буфера
-void USART_FlushTxBuf(void); //очистить передающий буфер
-void USART_PutChar(unsigned char sym); //положить символ в буфер
-void USART_SendStr(char * data); //послать строку по usart`у
-unsigned char USART_GetRxCount(void); //взять число символов в приемном буфере
-void USART_FlushRxBuf(void); //очистить приемный буфер
-unsigned char USART_GetChar(void); //прочитать приемный буфер usart`a
+unsigned char dmx_received();
+buffer get_buf(void);

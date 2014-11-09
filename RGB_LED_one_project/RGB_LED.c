@@ -68,41 +68,35 @@ Main loop:
 
 */
 
+//#define F_CPU 16000000UL
+
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include "TWI_Master.h"
 #include "RGB_LED_USART.h"
 #include "RGB_LED_init.h"
-#include "mrtos.h"
 #include "main_func.h"
-
-#define PWM_Values_buf_size 16
-
-unsigned char PWM_Values_buf[PWM_Values_buf_size];
-
-void task_ReceiveLoop(void);
-
-// Send commands to TWI
-void task_SendLoop(void);
-
-void task_CommanderLoop(void);
 
 int main(void)
 {
-    RGB_LED_init();
+	RGB_LED_init();
     TWI_Master_Initialise();
     USART_Init();
 
+	//PORTD=0b00100000;
     sei();
+	
+	test();
 
-    mRTOS_Init();
-    mRTOS_CreateTask(task_ReceiveLoop,10,ACTIVE);
-	mRTOS_CreateTask(task_CommanderLoop,10,ACTIVE);
-	mRTOS_CreateTask(task_SendLoop,10,ACTIVE);
-    
+	while(1) {
 
-    
-    mRTOS_Scheduler();
+		if(dmx_received()) {
+			Make_Command();
+			Send_to_TWI();
+		};
+		
+		
+	};
     
     return 0;
 }

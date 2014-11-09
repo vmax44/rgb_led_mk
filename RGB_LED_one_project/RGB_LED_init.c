@@ -10,22 +10,12 @@ void RGB_LED_init() {
 PORTB = 0x00;
 DDRB = 0x00;
 
-PORTD = 0x06;
-DDRD = 0x06;
+PORTD = 0b00000000;
+DDRD = 0b11111100;
 
 TCCR0 = 0x00;
 TCNT0 = 0x00;
 
-// Timer/Counter 1 initialization
-// Clock source: System Clock
-// Clock value: Timer 1 Stopped
-// Mode: Normal top=FFFFh
-// OC1 output: Discon.
-// Noise Canceler: Off
-// Input Capture on Falling Edge
-// Timer 1 Overflow Interrupt: Off
-// Input Capture Interrupt: Off
-// Compare Match Interrupt: Off
 TCCR1A = 0x00;
 TCCR1B = 0x00;
 TCNT1 = 0x00;
@@ -39,7 +29,7 @@ GIMSK = 0x00;
 MCUCR = 0x00;
 
 // Timer(s)/Counter(s) Interrupt(s) initialization
-TIMSK = 0x01;
+TIMSK = 0x00;
 
 // Analog Comparator initialization
 // Analog Comparator: Off
